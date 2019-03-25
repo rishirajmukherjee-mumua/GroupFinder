@@ -1,4 +1,5 @@
-﻿@model GroupFinder.Models.Questions
+﻿@using GroupFinder.Models
+@model GroupFinder.Models.Questions
 
 @{
     ViewBag.Title = "View";
@@ -6,15 +7,59 @@
 
 <h2>View</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Questions</h4>
         <hr />
+
+        @{
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            foreach (IdealSaturday i in Model.idealSaturdays)
+            {
+                listItems.Add(new SelectListItem
+                {
+                    Text = i.idealSaturday1,
+                    Value = i.IdealSaturdayId.ToString()
+                });
+            }
+        }
+        @{
+            List<SelectListItem> listItemsVacations = new List<SelectListItem>();
+            foreach (Vacation i in Model.vacations)
+            {
+                listItemsVacations.Add(new SelectListItem
+                {
+                    Text = i.vacation1,
+                    Value = i.VacationId.ToString()
+                });
+            }
+        }
+        @{
+            List<SelectListItem> listItemsFoods = new List<SelectListItem>();
+            foreach (Food i in Model.foods)
+            {
+                listItemsFoods.Add(new SelectListItem
+                {
+                    Text = i.food1,
+                    Value = i.FoodId.ToString()
+                });
+            }
+        }
+
+
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
+
+            @Html.DropDownListFor(model => model.idealSaturdays, listItems, new { @class = "form-control" }) <br />
+            @Html.DropDownListFor(model => model.vacations, listItemsVacations, new { @class = "form-control" }) <br />
+            @Html.DropDownListFor(model => model.foods, listItemsFoods, new { @class = "form-control" }) <br />
+            @Html.LabelFor(model => Model.songorartist, new { @class = "control-label" })
+            @Html.TextBoxFor(model => Model.songorartist, new { @class = "form-control" })
+
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -22,6 +67,3 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
