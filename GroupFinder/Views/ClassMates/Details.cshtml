@@ -1,0 +1,50 @@
+﻿@model GroupFinder.Models.ClassMate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ClassMate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fullname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fullname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.loginhash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.loginhash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.symbol)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.symbol)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ClassMateId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

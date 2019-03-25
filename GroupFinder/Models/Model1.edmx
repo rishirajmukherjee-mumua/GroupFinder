@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GROUP_FINDERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClassMateFoods">
+          <Key>
+            <PropertyRef Name="ClassMateFoodId" />
+          </Key>
+          <Property Name="ClassMateFoodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassMateId" Type="int" Nullable="false" />
+          <Property Name="FoodId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClassMates">
+          <Key>
+            <PropertyRef Name="ClassMateId" />
+          </Key>
+          <Property Name="ClassMateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" />
+          <Property Name="fullname" Type="nvarchar(max)" />
+          <Property Name="loginhash" Type="nvarchar(max)" />
+          <Property Name="symbol" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ClassMateVacations">
+          <Key>
+            <PropertyRef Name="ClassMateVacationId" />
+          </Key>
+          <Property Name="ClassMateVacationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassMateId" Type="int" Nullable="false" />
+          <Property Name="VacationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Foods">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="food" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="IdealSaturdayClassMates">
+          <Key>
+            <PropertyRef Name="IdealSaturdayClassMateId" />
+          </Key>
+          <Property Name="IdealSaturdayClassMateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassMateId" Type="int" Nullable="false" />
+          <Property Name="IdealSaturdayId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdealSaturdays">
+          <Key>
+            <PropertyRef Name="IdealSaturdayId" />
+          </Key>
+          <Property Name="IdealSaturdayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idealSaturday" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SongGenres">
+          <Key>
+            <PropertyRef Name="SongGenreId" />
+          </Key>
+          <Property Name="SongGenreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassMateId" Type="int" Nullable="false" />
+          <Property Name="genre" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Vacations">
+          <Key>
+            <PropertyRef Name="VacationId" />
+          </Key>
+          <Property Name="VacationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vacation" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_ClassMateFoods_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateFoods" Type="Self.ClassMateFoods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateFoods">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateFoods_Foods_FoodId">
+          <End Role="Foods" Type="Self.Foods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateFoods" Type="Self.ClassMateFoods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="ClassMateFoods">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateVacations_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateVacations" Type="Self.ClassMateVacations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateVacations">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateVacations_Vacations_VacationId">
+          <End Role="Vacations" Type="Self.Vacations" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateVacations" Type="Self.ClassMateVacations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacations">
+              <PropertyRef Name="VacationId" />
+            </Principal>
+            <Dependent Role="ClassMateVacations">
+              <PropertyRef Name="VacationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdealSaturdayClassMates_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdealSaturdayClassMates" Type="Self.IdealSaturdayClassMates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="IdealSaturdayClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId">
+          <End Role="IdealSaturdays" Type="Self.IdealSaturdays" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdealSaturdayClassMates" Type="Self.IdealSaturdayClassMates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdealSaturdays">
+              <PropertyRef Name="IdealSaturdayId" />
+            </Principal>
+            <Dependent Role="IdealSaturdayClassMates">
+              <PropertyRef Name="IdealSaturdayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SongGenres_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SongGenres" Type="Self.SongGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="SongGenres">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GROUP_FINDERModelStoreContainer">
+          <EntitySet Name="ClassMateFoods" EntityType="Self.ClassMateFoods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassMates" EntityType="Self.ClassMates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassMateVacations" EntityType="Self.ClassMateVacations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Foods" EntityType="Self.Foods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IdealSaturdayClassMates" EntityType="Self.IdealSaturdayClassMates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IdealSaturdays" EntityType="Self.IdealSaturdays" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SongGenres" EntityType="Self.SongGenres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vacations" EntityType="Self.Vacations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ClassMateFoods_ClassMates_ClassMateId" Association="Self.FK_ClassMateFoods_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateFoods_Foods_FoodId" Association="Self.FK_ClassMateFoods_Foods_FoodId">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateVacations_ClassMates_ClassMateId" Association="Self.FK_ClassMateVacations_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="ClassMateVacations" EntitySet="ClassMateVacations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateVacations_Vacations_VacationId" Association="Self.FK_ClassMateVacations_Vacations_VacationId">
+            <End Role="Vacations" EntitySet="Vacations" />
+            <End Role="ClassMateVacations" EntitySet="ClassMateVacations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdealSaturdayClassMates_ClassMates_ClassMateId" Association="Self.FK_IdealSaturdayClassMates_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="IdealSaturdayClassMates" EntitySet="IdealSaturdayClassMates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId" Association="Self.FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId">
+            <End Role="IdealSaturdays" EntitySet="IdealSaturdays" />
+            <End Role="IdealSaturdayClassMates" EntitySet="IdealSaturdayClassMates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SongGenres_ClassMates_ClassMateId" Association="Self.FK_SongGenres_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="SongGenres" EntitySet="SongGenres" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GROUP_FINDERModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClassMateFood">
+          <Key>
+            <PropertyRef Name="ClassMateFoodId" />
+          </Key>
+          <Property Name="ClassMateFoodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassMateId" Type="Int32" Nullable="false" />
+          <Property Name="FoodId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClassMate" Relationship="Self.FK_ClassMateFoods_ClassMates_ClassMateId" FromRole="ClassMateFoods" ToRole="ClassMates" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_ClassMateFoods_Foods_FoodId" FromRole="ClassMateFoods" ToRole="Foods" />
+        </EntityType>
+        <EntityType Name="ClassMate">
+          <Key>
+            <PropertyRef Name="ClassMateId" />
+          </Key>
+          <Property Name="ClassMateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="loginhash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="symbol" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClassMateFoods" Relationship="Self.FK_ClassMateFoods_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="ClassMateFoods" />
+          <NavigationProperty Name="ClassMateVacations" Relationship="Self.FK_ClassMateVacations_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="ClassMateVacations" />
+          <NavigationProperty Name="IdealSaturdayClassMates" Relationship="Self.FK_IdealSaturdayClassMates_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="IdealSaturdayClassMates" />
+          <NavigationProperty Name="SongGenres" Relationship="Self.FK_SongGenres_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="SongGenres" />
+        </EntityType>
+        <EntityType Name="ClassMateVacation">
+          <Key>
+            <PropertyRef Name="ClassMateVacationId" />
+          </Key>
+          <Property Name="ClassMateVacationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassMateId" Type="Int32" Nullable="false" />
+          <Property Name="VacationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClassMate" Relationship="Self.FK_ClassMateVacations_ClassMates_ClassMateId" FromRole="ClassMateVacations" ToRole="ClassMates" />
+          <NavigationProperty Name="Vacation" Relationship="Self.FK_ClassMateVacations_Vacations_VacationId" FromRole="ClassMateVacations" ToRole="Vacations" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="food1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClassMateFoods" Relationship="Self.FK_ClassMateFoods_Foods_FoodId" FromRole="Foods" ToRole="ClassMateFoods" />
+        </EntityType>
+        <EntityType Name="IdealSaturdayClassMate">
+          <Key>
+            <PropertyRef Name="IdealSaturdayClassMateId" />
+          </Key>
+          <Property Name="IdealSaturdayClassMateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassMateId" Type="Int32" Nullable="false" />
+          <Property Name="IdealSaturdayId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClassMate" Relationship="Self.FK_IdealSaturdayClassMates_ClassMates_ClassMateId" FromRole="IdealSaturdayClassMates" ToRole="ClassMates" />
+          <NavigationProperty Name="IdealSaturday" Relationship="Self.FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId" FromRole="IdealSaturdayClassMates" ToRole="IdealSaturdays" />
+        </EntityType>
+        <EntityType Name="IdealSaturday">
+          <Key>
+            <PropertyRef Name="IdealSaturdayId" />
+          </Key>
+          <Property Name="IdealSaturdayId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idealSaturday1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IdealSaturdayClassMates" Relationship="Self.FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId" FromRole="IdealSaturdays" ToRole="IdealSaturdayClassMates" />
+        </EntityType>
+        <EntityType Name="SongGenre">
+          <Key>
+            <PropertyRef Name="SongGenreId" />
+          </Key>
+          <Property Name="SongGenreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassMateId" Type="Int32" Nullable="false" />
+          <Property Name="genre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClassMate" Relationship="Self.FK_SongGenres_ClassMates_ClassMateId" FromRole="SongGenres" ToRole="ClassMates" />
+        </EntityType>
+        <EntityType Name="Vacation">
+          <Key>
+            <PropertyRef Name="VacationId" />
+          </Key>
+          <Property Name="VacationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vacation1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClassMateVacations" Relationship="Self.FK_ClassMateVacations_Vacations_VacationId" FromRole="Vacations" ToRole="ClassMateVacations" />
+        </EntityType>
+        <Association Name="FK_ClassMateFoods_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateFoods" Type="Self.ClassMateFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateFoods">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateFoods_Foods_FoodId">
+          <End Role="Foods" Type="Self.Food" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateFoods" Type="Self.ClassMateFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="ClassMateFoods">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateVacations_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateVacations" Type="Self.ClassMateVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateVacations">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdealSaturdayClassMates_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdealSaturdayClassMates" Type="Self.IdealSaturdayClassMate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="IdealSaturdayClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SongGenres_ClassMates_ClassMateId">
+          <End Role="ClassMates" Type="Self.ClassMate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SongGenres" Type="Self.SongGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="SongGenres">
+              <PropertyRef Name="ClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateVacations_Vacations_VacationId">
+          <End Role="Vacations" Type="Self.Vacation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClassMateVacations" Type="Self.ClassMateVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacations">
+              <PropertyRef Name="VacationId" />
+            </Principal>
+            <Dependent Role="ClassMateVacations">
+              <PropertyRef Name="VacationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId">
+          <End Role="IdealSaturdays" Type="Self.IdealSaturday" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdealSaturdayClassMates" Type="Self.IdealSaturdayClassMate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdealSaturdays">
+              <PropertyRef Name="IdealSaturdayId" />
+            </Principal>
+            <Dependent Role="IdealSaturdayClassMates">
+              <PropertyRef Name="IdealSaturdayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GROUP_FINDEREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClassMateFoods" EntityType="Self.ClassMateFood" />
+          <EntitySet Name="ClassMates" EntityType="Self.ClassMate" />
+          <EntitySet Name="ClassMateVacations" EntityType="Self.ClassMateVacation" />
+          <EntitySet Name="Foods" EntityType="Self.Food" />
+          <EntitySet Name="IdealSaturdayClassMates" EntityType="Self.IdealSaturdayClassMate" />
+          <EntitySet Name="IdealSaturdays" EntityType="Self.IdealSaturday" />
+          <EntitySet Name="SongGenres" EntityType="Self.SongGenre" />
+          <EntitySet Name="Vacations" EntityType="Self.Vacation" />
+          <AssociationSet Name="FK_ClassMateFoods_ClassMates_ClassMateId" Association="Self.FK_ClassMateFoods_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateFoods_Foods_FoodId" Association="Self.FK_ClassMateFoods_Foods_FoodId">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateVacations_ClassMates_ClassMateId" Association="Self.FK_ClassMateVacations_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="ClassMateVacations" EntitySet="ClassMateVacations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdealSaturdayClassMates_ClassMates_ClassMateId" Association="Self.FK_IdealSaturdayClassMates_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="IdealSaturdayClassMates" EntitySet="IdealSaturdayClassMates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SongGenres_ClassMates_ClassMateId" Association="Self.FK_SongGenres_ClassMates_ClassMateId">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="SongGenres" EntitySet="SongGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateVacations_Vacations_VacationId" Association="Self.FK_ClassMateVacations_Vacations_VacationId">
+            <End Role="Vacations" EntitySet="Vacations" />
+            <End Role="ClassMateVacations" EntitySet="ClassMateVacations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId" Association="Self.FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId">
+            <End Role="IdealSaturdays" EntitySet="IdealSaturdays" />
+            <End Role="IdealSaturdayClassMates" EntitySet="IdealSaturdayClassMates" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GROUP_FINDERModelStoreContainer" CdmEntityContainer="GROUP_FINDEREntities">
+          <EntitySetMapping Name="ClassMateFoods">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.ClassMateFood">
+              <MappingFragment StoreEntitySet="ClassMateFoods">
+                <ScalarProperty Name="ClassMateFoodId" ColumnName="ClassMateFoodId" />
+                <ScalarProperty Name="ClassMateId" ColumnName="ClassMateId" />
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassMates">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.ClassMate">
+              <MappingFragment StoreEntitySet="ClassMates">
+                <ScalarProperty Name="ClassMateId" ColumnName="ClassMateId" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="loginhash" ColumnName="loginhash" />
+                <ScalarProperty Name="symbol" ColumnName="symbol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassMateVacations">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.ClassMateVacation">
+              <MappingFragment StoreEntitySet="ClassMateVacations">
+                <ScalarProperty Name="ClassMateVacationId" ColumnName="ClassMateVacationId" />
+                <ScalarProperty Name="ClassMateId" ColumnName="ClassMateId" />
+                <ScalarProperty Name="VacationId" ColumnName="VacationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Foods">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.Food">
+              <MappingFragment StoreEntitySet="Foods">
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="food1" ColumnName="food" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdealSaturdayClassMates">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.IdealSaturdayClassMate">
+              <MappingFragment StoreEntitySet="IdealSaturdayClassMates">
+                <ScalarProperty Name="IdealSaturdayClassMateId" ColumnName="IdealSaturdayClassMateId" />
+                <ScalarProperty Name="ClassMateId" ColumnName="ClassMateId" />
+                <ScalarProperty Name="IdealSaturdayId" ColumnName="IdealSaturdayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdealSaturdays">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.IdealSaturday">
+              <MappingFragment StoreEntitySet="IdealSaturdays">
+                <ScalarProperty Name="IdealSaturdayId" ColumnName="IdealSaturdayId" />
+                <ScalarProperty Name="idealSaturday1" ColumnName="idealSaturday" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SongGenres">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.SongGenre">
+              <MappingFragment StoreEntitySet="SongGenres">
+                <ScalarProperty Name="SongGenreId" ColumnName="SongGenreId" />
+                <ScalarProperty Name="ClassMateId" ColumnName="ClassMateId" />
+                <ScalarProperty Name="genre" ColumnName="genre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vacations">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.Vacation">
+              <MappingFragment StoreEntitySet="Vacations">
+                <ScalarProperty Name="VacationId" ColumnName="VacationId" />
+                <ScalarProperty Name="vacation1" ColumnName="vacation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

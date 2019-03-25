@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "login";
+}
+
+
+@model GroupFinder.Models.ClassMate
+
+<body>
+    @using (Html.BeginForm())
+    {
+        
+
+            <div class="form-group centerlook">
+                <h1> Login </h1>
+            </div>
+            <div class="input-group">
+                <label>User Name: </label>
+                @Html.EditorFor(model => model.email, new { @class = "form-control", placeholder = "Username" })*
+                @Html.ValidationMessageFor(model => model.loginhash)
+            </div>
+            <div class="input-group">
+                <label>Password:</label>
+                @Html.PasswordFor(model => model.loginhash, new { @class = "form-control", placeholder = "Password" })
+                @Html.ValidationMessageFor(model => model.loginhash)
+
+            </div>
+            <div class="form-group error">
+                @if (@ViewBag.Failedcount != null)
+                {
+
+                    <label> Failed Attempt count is: @ViewBag.Failedcount</label>
+                }
+
+                @if (@ViewBag.NotValidUser != null)
+                {
+
+                    <label> @ViewBag.NotValidUser</label>
+                }
+            </div>
+            <div class="loginbtn">
+
+                <input type="submit" value="Login" class="btn btn-primary" />
+
+            </div>
+    }
+</body>
+

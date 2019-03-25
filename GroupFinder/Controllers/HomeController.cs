@@ -15,7 +15,7 @@ namespace GroupFinder.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Team Members that worked together as Group 4";
 
             return View();
         }

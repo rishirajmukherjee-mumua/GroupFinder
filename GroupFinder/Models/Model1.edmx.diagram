@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4c9b9443bc464ae987aa865e9763b183" Name="Diagram1">
+        <EntityTypeShape EntityType="GROUP_FINDERModel.ClassMateFood" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.ClassMate" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.ClassMateVacation" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.Food" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.IdealSaturdayClassMate" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.IdealSaturday" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.SongGenre" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GROUP_FINDERModel.Vacation" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateFoods_ClassMates_ClassMateId" ManuallyRouted="false" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateFoods_Foods_FoodId" ManuallyRouted="false" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateVacations_ClassMates_ClassMateId" ManuallyRouted="false" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_IdealSaturdayClassMates_ClassMates_ClassMateId" ManuallyRouted="false" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_SongGenres_ClassMates_ClassMateId" ManuallyRouted="false" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateVacations_Vacations_VacationId" ManuallyRouted="false" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
