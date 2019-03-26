@@ -86,7 +86,7 @@ namespace GroupFinder.Controllers
             IdealSaturdayClassMate idealSaturdayClassMate = new IdealSaturdayClassMate();
             idealSaturdayClassMate.ClassMateId = questions.classmateid;
             idealSaturdayClassMate.IdealSaturdayId = questions.idealsaturdayid;
-            SearchItem listsongs = await GetSpotifyData(questions.songorartist);
+            //SearchItem listsongs = await GetSpotifyData(questions.songorartist);
             db.IdealSaturdayClassMates.Add(idealSaturdayClassMate);
             db.ClassMateVacations.Add(classMateVacation);
             db.ClassMateFoods.Add(classMateFood);
@@ -98,13 +98,22 @@ namespace GroupFinder.Controllers
 
 
 
-        public async Task<SearchItem> GetSpotifyData(string searchTerm)
+        public async Task<JsonResult> GetSpotifyData(string searchTerm)
         {
             CredentialsAuth auth = new CredentialsAuth("078c7392711e4b978d6a3bd21984c93c", "8b7f7c3b96454fcd8b42193a179ca19b");
             Token token = await auth.GetToken();
             SpotifyWebAPI api = new SpotifyWebAPI() { TokenType = token.TokenType, AccessToken = token.AccessToken };
             SearchItem item =  api.SearchItems(searchTerm, SearchType.All, 10, 0, "US");
-            return item;
+            List<FullArtist> artists = item.Artists.Items.ToList();
+            List<AjaxArtist> ajaxArtists = new List<AjaxArtist>();
+            foreach(FullArtist artist in artists)
+            {
+                AjaxArtist artistajax = new AjaxArtist();
+                artistajax.Id = artist.Id;
+                artistajax.Name = artist.Name;
+                ajaxArtists.Add(artistajax);
+            }
+            return Json(ajaxArtists, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,6 +1,45 @@
 ﻿@using GroupFinder.Models
 @model GroupFinder.Models.Questions
 
+@section scripts {
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+
+    
+
+    <script type="text/javascript">
+
+      $(document).ready(function () {
+          $("#songorartist").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSpotifyData", "App")',
+                datatype: "json",
+                data: {
+                    searchTerm: request.term
+                },
+                success: function (data) {
+                    response($.map(data, function (val, item) {
+                        return {
+                            label: val.Name,
+                            value: val.Name,
+                            customerId: val.ID
+                        }
+                    }))
+                }
+            })
+        },
+        select: function (event, ui) {
+            $("#songorartist").val(ui.item.customerId);
+        }
+    });
+});
+
+    </script>
+
+}
+
 @{
     ViewBag.Title = "View";
 }
@@ -9,7 +48,7 @@
 
 <div class="well" style="background-color : lightgray">
     @{
-        var weather = (string)ViewData["weather"] ;
+        var weather = (string)ViewData["weather"];
         if (weather != null)
         {
             <p style="color:yellow">The current tempurature is @weather </p>
@@ -68,8 +107,13 @@
             @Html.DropDownListFor(model => model.idealsaturdayid, listItems, new { @class = "form-control" }) <br />
             @Html.DropDownListFor(model => model.vactionid, listItemsVacations, new { @class = "form-control" }) <br />
             @Html.DropDownListFor(model => model.foodid, listItemsFoods, new { @class = "form-control" }) <br />
+
             @Html.LabelFor(model => Model.songorartist, new { @class = "control-label" })
+
             @Html.TextBoxFor(model => Model.songorartist, new { @class = "form-control" })
+            <br /><br />
+            @Html.HiddenFor(model => Model.songorartist)
+
             @Html.HiddenFor(m => m.classmateid)
 
             <div class="col-md-offset-2 col-md-10">

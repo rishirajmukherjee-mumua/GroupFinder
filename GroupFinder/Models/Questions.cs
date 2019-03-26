@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GroupFinder.Models
 {
@@ -16,6 +17,7 @@ namespace GroupFinder.Models
         public List<Food> foods { get; set; }
 
         public string songorartist { get; set; }
+
 
         public int classmateid { get; set; }
 
