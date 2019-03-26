@@ -15,7 +15,15 @@ namespace GroupFinder.Models
 
         public List<Food> foods { get; set; }
 
-        public string songorartist;
+        public string songorartist { get; set; }
+
+        public int classmateid { get; set; }
+
+        public int vactionid { get; set; }
+
+        public int idealsaturdayid { get; set; }
+
+        public int foodid { get; set; }
 
         [System.ComponentModel.DataAnnotations.Key]
         public int QuestionId { get; set; }

@@ -7,7 +7,7 @@
 
 <h2>View</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("QuestionsSubmit", "App", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -54,11 +54,12 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
 
-            @Html.DropDownListFor(model => model.idealSaturdays, listItems, new { @class = "form-control" }) <br />
-            @Html.DropDownListFor(model => model.vacations, listItemsVacations, new { @class = "form-control" }) <br />
-            @Html.DropDownListFor(model => model.foods, listItemsFoods, new { @class = "form-control" }) <br />
+            @Html.DropDownListFor(model => model.idealsaturdayid, listItems, new { @class = "form-control" }) <br />
+            @Html.DropDownListFor(model => model.vactionid, listItemsVacations, new { @class = "form-control" }) <br />
+            @Html.DropDownListFor(model => model.foodid, listItemsFoods, new { @class = "form-control" }) <br />
             @Html.LabelFor(model => Model.songorartist, new { @class = "control-label" })
             @Html.TextBoxFor(model => Model.songorartist, new { @class = "form-control" })
+            @Html.HiddenFor(m => m.classmateid)
 
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

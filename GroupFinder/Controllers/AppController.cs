@@ -12,6 +12,7 @@ using SpotifyAPI.Web.Auth; //All Authentication-related classes
 using SpotifyAPI.Web.Enums; //Enums
 using SpotifyAPI.Web.Models;
 using System.Web.Script.Serialization;
+using OpenWeatherMap;
 
 namespace GroupFinder.Controllers
 {
@@ -40,8 +41,11 @@ namespace GroupFinder.Controllers
                 questions.classmate = item;
                 questions.idealSaturdays = db.IdealSaturdays.ToList();
                 questions.vacations = db.Vacations.ToList();
+                questions.classmateid = item.ClassMateId;
                 questions.foods = db.Foods.ToList();
+                //getWeather();
                 return View("Questions", questions);
+
             }
             else
 
@@ -54,21 +58,51 @@ namespace GroupFinder.Controllers
             return View("login");
         }
 
+
+        public  async Task<string> getWeather()
+        {
+            var client = new OpenWeatherMapClient("68b8644b93b1b90aec47e87b59f8612d");
+            var currentWeather = await client.CurrentWeather.GetByName("Florida");
+            //Console.WriteLine(currentWeather.Weather.Value);
+            return currentWeather.Weather.Value;
+        }
+
         public ActionResult Questions()
         {
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> QuestionsSubmit(Questions questions)
+        {
+            ClassMateFood classMateFood = new ClassMateFood();
+            classMateFood.ClassMateId = questions.classmateid;
+            classMateFood.FoodId = questions.foodid;
+            ClassMateVacation classMateVacation= new ClassMateVacation();
+            classMateVacation.ClassMateId = questions.classmateid;
+            classMateVacation.VacationId = questions.vactionid;
+            IdealSaturdayClassMate idealSaturdayClassMate = new IdealSaturdayClassMate();
+            idealSaturdayClassMate.ClassMateId = questions.classmateid;
+            idealSaturdayClassMate.IdealSaturdayId = questions.idealsaturdayid;
+            SearchItem listsongs = await GetSpotifyData(questions.songorartist);
+            db.IdealSaturdayClassMates.Add(idealSaturdayClassMate);
+            db.ClassMateVacations.Add(classMateVacation);
+            db.ClassMateFoods.Add(classMateFood);
+            db.SaveChanges();
+            return View("ThankYou");
+        }
+
+      
 
 
-        public async Task<String> GetSpotifyData(string searchTerm)
+
+        public async Task<SearchItem> GetSpotifyData(string searchTerm)
         {
             CredentialsAuth auth = new CredentialsAuth("078c7392711e4b978d6a3bd21984c93c", "8b7f7c3b96454fcd8b42193a179ca19b");
             Token token = await auth.GetToken();
             SpotifyWebAPI api = new SpotifyWebAPI() { TokenType = token.TokenType, AccessToken = token.AccessToken };
             SearchItem item =  api.SearchItems(searchTerm, SearchType.All, 10, 0, "US");
-            var json = new JavaScriptSerializer().Serialize(item.Artists);
-            return json;
+            return item;
         }
     }
 }
