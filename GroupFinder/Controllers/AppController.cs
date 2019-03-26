@@ -26,7 +26,7 @@ namespace GroupFinder.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(ClassMate classMate)
+        public async Task<ActionResult> Login(ClassMate classMate)
         {
             var model = from r in db.ClassMates
                         where r.loginhash == classMate.loginhash
@@ -43,7 +43,8 @@ namespace GroupFinder.Controllers
                 questions.vacations = db.Vacations.ToList();
                 questions.classmateid = item.ClassMateId;
                 questions.foods = db.Foods.ToList();
-                //getWeather();
+                string weather = await getWeather();
+                ViewData["weather"] = weather;
                 return View("Questions", questions);
 
             }
@@ -62,9 +63,10 @@ namespace GroupFinder.Controllers
         public  async Task<string> getWeather()
         {
             var client = new OpenWeatherMapClient("68b8644b93b1b90aec47e87b59f8612d");
-            var currentWeather = await client.CurrentWeather.GetByName("Florida");
+            var currentWeather = await client.CurrentWeather.GetByName("Tampa");
             //Console.WriteLine(currentWeather.Weather.Value);
-            return currentWeather.Weather.Value;
+            return currentWeather.Temperature.Value.ToString() + " " +  currentWeather.Temperature.Unit + " outside you will see : " 
+                +  currentWeather.Weather.Value;
         }
 
         public ActionResult Questions()

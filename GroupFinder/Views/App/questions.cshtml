@@ -7,6 +7,17 @@
 
 <h2>View</h2>
 
+<div class="well" style="background-color : lightgray">
+    @{
+        var weather = (string)ViewData["weather"] ;
+        if (weather != null)
+        {
+            <p style="color:yellow">The current tempurature is @weather </p>
+        }
+    }
+</div>
+
+
 @using (Html.BeginForm("QuestionsSubmit", "App", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
