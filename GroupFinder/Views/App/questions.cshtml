@@ -44,7 +44,6 @@
     ViewBag.Title = "View";
 }
 
-<h2>View</h2>
 
 <div class="well" style="background-color : lightgray">
     @{
@@ -52,6 +51,16 @@
         if (weather != null)
         {
             <p style="color:yellow">The current tempurature is @weather </p>
+        }
+    }
+</div>
+
+<div class="well" style="background-color : lightgoldenrodyellow">
+    @{
+        var name = (string)ViewData["classMateName"];
+        if (name != null)
+        {
+            <p style="color:black">Welcome @name please answer the below questions so we can know a little more about you </p>
         }
     }
 </div>
