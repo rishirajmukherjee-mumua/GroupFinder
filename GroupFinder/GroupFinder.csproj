@@ -182,7 +182,7 @@
     <Compile Include="Models\ClassMateFood.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClassMateSongGenre.cs">
+    <Compile Include="Models\ClassMateMatch.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ClassMateVacation.cs">
@@ -253,6 +253,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="libman.json" />
+    <None Include="Properties\PublishProfiles\GroupFinder-ISM-6225-Group-4 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
