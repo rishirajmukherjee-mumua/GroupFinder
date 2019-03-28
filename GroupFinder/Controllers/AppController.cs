@@ -47,6 +47,7 @@ namespace GroupFinder.Controllers
                 {
                     List<ClassMateResult> results = item.ClassMateResults.OrderByDescending(r => r.score).ToList();
                     int i = 1;
+                    ViewData["match"] += "Hello " + item.fullname + " here is your next team.";
                     foreach (ClassMateResult re in results)
                     {
                         if (i > 3)
@@ -57,12 +58,12 @@ namespace GroupFinder.Controllers
                         {
                             if (re.classmateId1 != item.ClassMateId)
                             {
-                                ViewData["match"] += "" + re.ClassMate.fullname + " is a match" + ",";
+                                ViewData["match"] += " " + re.ClassMate.fullname + ",";
                                 i++;
                             }
                             else
                             {
-                                ViewData["match"] += "" + re.ClassMate1.fullname + " is a match" + ",";
+                                ViewData["match"] += " " + re.ClassMate1.fullname +  ",";
                                 i++;
                             }
                         }
