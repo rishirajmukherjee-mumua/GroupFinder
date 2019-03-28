@@ -45,17 +45,17 @@
 }
 
 
-<div class="well" style="background-color : lightgray">
+<div class="well" style="background-color : white">
     @{
-        var weather = (string)ViewData["weather"];
+        var weather = (double)ViewData["weather"];
         if (weather != null)
         {
-            <p style="color:yellow">The current tempurature is @weather </p>
+            <p style="color:steelblue">The current temperature is @weather </p>
         }
     }
 </div>
 
-<div class="well" style="background-color : lightgoldenrodyellow">
+<div class="well" style="background-color : lightgray">
     @{
         var name = (string)ViewData["classMateName"];
         if (name != null)
@@ -71,7 +71,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Questions</h4>
+        <h3>Take the Quiz!</h3>
         <hr />
 
         @{
@@ -110,25 +110,42 @@
 
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-center" })
         <div class="form-group">
 
-            @Html.DropDownListFor(model => model.idealsaturdayid, listItems, new { @class = "form-control" }) <br />
-            @Html.DropDownListFor(model => model.vactionid, listItemsVacations, new { @class = "form-control" }) <br />
-            @Html.DropDownListFor(model => model.foodid, listItemsFoods, new { @class = "form-control" }) <br />
+            <div class="row">
+              
 
-            @Html.LabelFor(model => Model.songorartist, new { @class = "control-label" })
 
-            @Html.TextBoxFor(model => Model.songorartist, new { @class = "form-control" })
-            <br /><br />
-            @Html.HiddenFor(model => Model.songorartist)
+                <div class="col-sm-3">
 
-            @Html.HiddenFor(m => m.classmateid)
+                    @Html.LabelFor(model => Model.idealsaturdayid, "What is your ideal Saturday activity?", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.idealsaturdayid, listItems, new { @class = "form-control" }) <br />
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => Model.vactionid, "What is your dream vacation?", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.vactionid, listItemsVacations, new { @class = "form-control" }) <br />
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => Model.foodid, "Favorite food?", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.foodid, listItemsFoods, new { @class = "form-control" }) <br />
+                </div>
+                <div class="col-sm-3">
+                    
+                    @Html.LabelFor(model => Model.songorartist, "Enter your favorite song or artist!", new { @class = "control-label" })
 
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                    @Html.TextBoxFor(model => Model.songorartist, new { @class = "form-control" })
+                    <br /><br />
+                    @Html.HiddenFor(model => Model.songorartist)
+
+                    @Html.HiddenFor(m => m.classmateid)
+                </div>
+                    
+                        <input type="submit" value="See your Results!" class="btn input-block-level form-control" />
+
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        
 }
 

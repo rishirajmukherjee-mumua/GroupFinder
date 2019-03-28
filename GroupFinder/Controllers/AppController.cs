@@ -48,7 +48,9 @@ namespace GroupFinder.Controllers
                 questions.classmateid = item.ClassMateId;
                 questions.foods = db.Foods.ToList();
                 string weather = await getWeather();
-                ViewData["weather"] = weather;
+                double conversion = Convert.ToDouble(weather);
+                double farenheit = conversion - 273.15 * 33.8;
+              ViewData["weather"] = farenheit;
                 ViewData["classMateName"] = item.fullname;
                 return View("Questions", questions);
 
@@ -86,8 +88,7 @@ namespace GroupFinder.Controllers
             var client = new OpenWeatherMapClient("68b8644b93b1b90aec47e87b59f8612d");
             var currentWeather = await client.CurrentWeather.GetByName("Tampa");
             //Console.WriteLine(currentWeather.Weather.Value);
-            return currentWeather.Temperature.Value.ToString() + " " + currentWeather.Temperature.Unit + " outside you will see : "
-                + currentWeather.Weather.Value;
+            return currentWeather.Temperature.Value.ToString();
         }
 
         public ActionResult Questions()
