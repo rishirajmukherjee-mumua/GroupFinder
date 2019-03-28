@@ -5,3 +5,10 @@
 
 <h2>Your potential matches are as follows:</h2>
 
+<div class="well" style="background-color:antiquewhite">
+    @{
+        var display = (string)ViewData["match"];
+        @display
+    }
+</div>
+

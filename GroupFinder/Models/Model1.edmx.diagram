@@ -20,10 +20,10 @@
         <AssociationConnector Association="GROUP_FINDERModel.FK_SongGenres_ClassMates_ClassMateId" ManuallyRouted="false" />
         <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateVacations_Vacations_VacationId" ManuallyRouted="false" />
         <AssociationConnector Association="GROUP_FINDERModel.FK_IdealSaturdayClassMates_IdealSaturdays_IdealSaturdayId" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="GROUP_FINDERModel.ClassMateMatch" Width="1.5" PointX="3" PointY="16.5" />
-        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateMatchesClassMate" />
-        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1" />
-      </Diagram>
+        <EntityTypeShape EntityType="GROUP_FINDERModel.ClassMateResult" Width="1.5" PointX="3" PointY="16.5" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates" />
+        <AssociationConnector Association="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates_1" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -182,7 +182,7 @@
     <Compile Include="Models\ClassMateFood.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClassMateMatch.cs">
+    <Compile Include="Models\ClassMateResult.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ClassMateVacation.cs">
@@ -290,6 +290,7 @@
     <Content Include="Views\App\questions.cshtml" />
     <Content Include="Views\App\thankyou.cshtml" />
     <Content Include="Views\App\matches.cshtml" />
+    <Content Include="Views\App\findMatches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,19 +13,14 @@
           <Property Name="ClassMateId" Type="int" Nullable="false" />
           <Property Name="FoodId" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ClassMateMatches">
+        <EntityType Name="ClassMateResults">
           <Key>
-            <PropertyRef Name="ClassMateMatchesId" />
-            <PropertyRef Name="score" />
-            <PropertyRef Name="ClassMateClassMateId" />
-            <PropertyRef Name="ClassMateClassMateId1" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="ClassMateMatchesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="score" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ClassMateClassMateId" Type="int" Nullable="false" />
-          <Property Name="ClassMateClassMateId1" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="score" Type="varchar" MaxLength="50" />
+          <Property Name="classmateId1" Type="int" />
+          <Property Name="classmateid2" Type="int" />
         </EntityType>
         <EntityType Name="ClassMates">
           <Key>
@@ -110,27 +105,27 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClassMateMatchesClassMate">
-          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1" />
-          <End Role="ClassMateMatches" Type="Self.ClassMateMatches" Multiplicity="*" />
+        <Association Name="FK_ClassMateResults_ToClassMates">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="0..1" />
+          <End Role="ClassMateResults" Type="Self.ClassMateResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClassMates">
               <PropertyRef Name="ClassMateId" />
             </Principal>
-            <Dependent Role="ClassMateMatches">
-              <PropertyRef Name="ClassMateClassMateId" />
+            <Dependent Role="ClassMateResults">
+              <PropertyRef Name="classmateId1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClassMateMatchesClassMate1">
-          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1" />
-          <End Role="ClassMateMatches" Type="Self.ClassMateMatches" Multiplicity="*" />
+        <Association Name="FK_ClassMateResults_ToClassMates_1">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="0..1" />
+          <End Role="ClassMateResults" Type="Self.ClassMateResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClassMates">
               <PropertyRef Name="ClassMateId" />
             </Principal>
-            <Dependent Role="ClassMateMatches">
-              <PropertyRef Name="ClassMateClassMateId1" />
+            <Dependent Role="ClassMateResults">
+              <PropertyRef Name="classmateid2" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -206,6 +201,7 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
         </Association>
         <EntityContainer Name="GROUP_FINDERModelStoreContainer">
           <EntitySet Name="ClassMateFoods" EntityType="Self.ClassMateFoods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassMateResults" EntityType="Self.ClassMateResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClassMates" EntityType="Self.ClassMates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClassMateVacations" EntityType="Self.ClassMateVacations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Foods" EntityType="Self.Foods" Schema="dbo" store:Type="Tables" />
@@ -213,14 +209,6 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
           <EntitySet Name="IdealSaturdays" EntityType="Self.IdealSaturdays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SongGenres" EntityType="Self.SongGenres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vacations" EntityType="Self.Vacations" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ClassMateMatches" EntityType="Self.ClassMateMatches" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ClassMateMatches].[ClassMateMatchesId] AS [ClassMateMatchesId], 
-    [ClassMateMatches].[score] AS [score], 
-    [ClassMateMatches].[ClassMateClassMateId] AS [ClassMateClassMateId], 
-    [ClassMateMatches].[ClassMateClassMateId1] AS [ClassMateClassMateId1]
-    FROM [dbo].[ClassMateMatches] AS [ClassMateMatches]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_ClassMateFoods_ClassMates_ClassMateId" Association="Self.FK_ClassMateFoods_ClassMates_ClassMateId">
             <End Role="ClassMates" EntitySet="ClassMates" />
             <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
@@ -229,13 +217,13 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
             <End Role="Foods" EntitySet="Foods" />
             <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClassMateMatchesClassMate" Association="Self.FK_ClassMateMatchesClassMate">
+          <AssociationSet Name="FK_ClassMateResults_ToClassMates" Association="Self.FK_ClassMateResults_ToClassMates">
             <End Role="ClassMates" EntitySet="ClassMates" />
-            <End Role="ClassMateMatches" EntitySet="ClassMateMatches" />
+            <End Role="ClassMateResults" EntitySet="ClassMateResults" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClassMateMatchesClassMate1" Association="Self.FK_ClassMateMatchesClassMate1">
+          <AssociationSet Name="FK_ClassMateResults_ToClassMates_1" Association="Self.FK_ClassMateResults_ToClassMates_1">
             <End Role="ClassMates" EntitySet="ClassMates" />
-            <End Role="ClassMateMatches" EntitySet="ClassMateMatches" />
+            <End Role="ClassMateResults" EntitySet="ClassMateResults" />
           </AssociationSet>
           <AssociationSet Name="FK_ClassMateVacations_ClassMates_ClassMateId" Association="Self.FK_ClassMateVacations_ClassMates_ClassMateId">
             <End Role="ClassMates" EntitySet="ClassMates" />
@@ -285,9 +273,9 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
           <NavigationProperty Name="ClassMateVacations" Relationship="Self.FK_ClassMateVacations_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="ClassMateVacations" />
           <NavigationProperty Name="IdealSaturdayClassMates" Relationship="Self.FK_IdealSaturdayClassMates_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="IdealSaturdayClassMates" />
           <NavigationProperty Name="SongGenres" Relationship="Self.FK_SongGenres_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="SongGenres" />
-          <NavigationProperty Name="ClassMateMatches" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate" FromRole="ClassMate" ToRole="ClassMateMatch" />
-          <NavigationProperty Name="ClassMateMatches1" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1" FromRole="ClassMate" ToRole="ClassMateMatch" />
-        </EntityType>
+          <NavigationProperty Name="ClassMateResults" Relationship="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates" FromRole="ClassMate" ToRole="ClassMateResult" />
+          <NavigationProperty Name="ClassMateResults1" Relationship="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates_1" FromRole="ClassMate" ToRole="ClassMateResult" />
+          </EntityType>
         <EntityType Name="ClassMateVacation">
           <Key>
             <PropertyRef Name="ClassMateVacationId" />
@@ -476,55 +464,52 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
             <End Role="IdealSaturdays" EntitySet="IdealSaturdays" />
             <End Role="IdealSaturdayClassMates" EntitySet="IdealSaturdayClassMates" />
           </AssociationSet>
-          <EntitySet Name="ClassMateMatches" EntityType="GROUP_FINDERModel.ClassMateMatch" />
-          <AssociationSet Name="FK_ClassMateMatchesClassMate" Association="GROUP_FINDERModel.FK_ClassMateMatchesClassMate">
+          <EntitySet Name="ClassMateResults" EntityType="GROUP_FINDERModel.ClassMateResult" />
+          <AssociationSet Name="FK_ClassMateResults_ToClassMates" Association="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates">
             <End Role="ClassMate" EntitySet="ClassMates" />
-            <End Role="ClassMateMatch" EntitySet="ClassMateMatches" />
+            <End Role="ClassMateResult" EntitySet="ClassMateResults" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClassMateMatchesClassMate1" Association="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1">
+          <AssociationSet Name="FK_ClassMateResults_ToClassMates_1" Association="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates_1">
             <End Role="ClassMate" EntitySet="ClassMates" />
-            <End Role="ClassMateMatch" EntitySet="ClassMateMatches" />
+            <End Role="ClassMateResult" EntitySet="ClassMateResults" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="ClassMateMatch">
+          </EntityContainer>
+        <EntityType Name="ClassMateResult">
           <Key>
-            <PropertyRef Name="ClassMateMatchesId" />
-            <PropertyRef Name="score" />
-            <PropertyRef Name="ClassMateClassMateId" />
-            <PropertyRef Name="ClassMateClassMateId1" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="ClassMateMatchesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="score" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClassMateClassMateId" Type="Int32" Nullable="false" />
-          <Property Name="ClassMateClassMateId1" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ClassMate" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate" FromRole="ClassMateMatch" ToRole="ClassMate" />
-          <NavigationProperty Name="ClassMate1" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1" FromRole="ClassMateMatch" ToRole="ClassMate" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="score" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="classmateId1" Type="Int32" />
+          <Property Name="classmateid2" Type="Int32" />
+          <NavigationProperty Name="ClassMate" Relationship="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates" FromRole="ClassMateResult" ToRole="ClassMate" />
+          <NavigationProperty Name="ClassMate1" Relationship="GROUP_FINDERModel.FK_ClassMateResults_ToClassMates_1" FromRole="ClassMateResult" ToRole="ClassMate" />
         </EntityType>
-        <Association Name="FK_ClassMateMatchesClassMate">
-          <End Type="GROUP_FINDERModel.ClassMate" Role="ClassMate" Multiplicity="1" />
-          <End Type="GROUP_FINDERModel.ClassMateMatch" Role="ClassMateMatch" Multiplicity="*" />
+        <Association Name="FK_ClassMateResults_ToClassMates">
+          <End Type="GROUP_FINDERModel.ClassMate" Role="ClassMate" Multiplicity="0..1" />
+          <End Type="GROUP_FINDERModel.ClassMateResult" Role="ClassMateResult" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClassMate">
               <PropertyRef Name="ClassMateId" />
             </Principal>
-            <Dependent Role="ClassMateMatch">
-              <PropertyRef Name="ClassMateClassMateId" />
+            <Dependent Role="ClassMateResult">
+              <PropertyRef Name="classmateId1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClassMateMatchesClassMate1">
-          <End Type="GROUP_FINDERModel.ClassMate" Role="ClassMate" Multiplicity="1" />
-          <End Type="GROUP_FINDERModel.ClassMateMatch" Role="ClassMateMatch" Multiplicity="*" />
+        <Association Name="FK_ClassMateResults_ToClassMates_1">
+          <End Type="GROUP_FINDERModel.ClassMate" Role="ClassMate" Multiplicity="0..1" />
+          <End Type="GROUP_FINDERModel.ClassMateResult" Role="ClassMateResult" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClassMate">
               <PropertyRef Name="ClassMateId" />
             </Principal>
-            <Dependent Role="ClassMateMatch">
-              <PropertyRef Name="ClassMateClassMateId1" />
+            <Dependent Role="ClassMateResult">
+              <PropertyRef Name="classmateid2" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -601,13 +586,13 @@ warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ClassMateMatches">
-            <EntityTypeMapping TypeName="GROUP_FINDERModel.ClassMateMatch">
-              <MappingFragment StoreEntitySet="ClassMateMatches">
-                <ScalarProperty Name="ClassMateClassMateId1" ColumnName="ClassMateClassMateId1" />
-                <ScalarProperty Name="ClassMateClassMateId" ColumnName="ClassMateClassMateId" />
+          <EntitySetMapping Name="ClassMateResults">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.ClassMateResult">
+              <MappingFragment StoreEntitySet="ClassMateResults">
+                <ScalarProperty Name="classmateid2" ColumnName="classmateid2" />
+                <ScalarProperty Name="classmateId1" ColumnName="classmateId1" />
                 <ScalarProperty Name="score" ColumnName="score" />
-                <ScalarProperty Name="ClassMateMatchesId" ColumnName="ClassMateMatchesId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
