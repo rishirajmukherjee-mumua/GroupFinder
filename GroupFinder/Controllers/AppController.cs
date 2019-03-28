@@ -45,6 +45,29 @@ namespace GroupFinder.Controllers
             {
                 if (hasClassMateAnsweredQuestions(item.ClassMateId))
                 {
+                    List<ClassMateResult> results = item.ClassMateResults.OrderByDescending(r => r.score).ToList();
+                    int i = 1;
+                    ViewData["match"] += "Hello " + item.fullname + " here is your next team.";
+                    foreach (ClassMateResult re in results)
+                    {
+                        if (i > 3)
+                        {
+                            break;
+                        }
+                        if (re.classmateId1 != re.classmateid2)
+                        {
+                            if (re.classmateId1 != item.ClassMateId)
+                            {
+                                ViewData["match"] += " " + re.ClassMate.fullname + ",";
+                                i++;
+                            }
+                            else
+                            {
+                                ViewData["match"] += " " + re.ClassMate1.fullname +  ",";
+                                i++;
+                            }
+                        }
+                    }
                     return View("Matches");
                 }
                 Questions questions = new Questions();
@@ -103,8 +126,23 @@ namespace GroupFinder.Controllers
         }
 
 
-        public ActionResult Matches()
+        public ActionResult Matches(ClassMate classMate)
         {
+            List<ClassMateResult> results = classMate.ClassMateResults.OrderByDescending(r => r.score).ToList();
+            foreach (ClassMateResult re in results)
+            {
+                if (re.classmateId1 != re.classmateid2)
+                {
+                    if (re.classmateId1 != classMate.ClassMateId)
+                    {
+                        ViewData["match"] += re.ClassMate.fullname + " is a match <br>";
+                    }
+                    else
+                    {
+                        ViewData["match"] += re.ClassMate1.fullname + " is a match <br>";
+                    }
+                }
+            }
             return View();
         }
 
@@ -180,36 +218,49 @@ namespace GroupFinder.Controllers
                 {
                     if (!isScoreAlreadyAdded(classMate.ClassMateId, classmateToFind.ClassMateId))
                     {
-                        if (classMate.ClassMateVacations.ToList().First().VacationId == classmateToFind.ClassMateVacations.ToList().First().VacationId)
+                        if (classMate.ClassMateVacations.Count > 0 && classmateToFind.ClassMateVacations.Count > 0)
                         {
-                            score += vacationMatch;
+                            if (classMate.ClassMateVacations.ToList().First().VacationId == classmateToFind.ClassMateVacations.ToList().First().VacationId)
+                            {
+                                score += vacationMatch;
+                            }
                         }
-                        if (classMate.IdealSaturdayClassMates.First().IdealSaturdayId == classmateToFind.IdealSaturdayClassMates.First().IdealSaturdayId)
+                        if (classMate.IdealSaturdayClassMates.Count > 0 && classmateToFind.IdealSaturdayClassMates.Count > 0)
                         {
-                            score += idealSaturdayMatch;
+                            if (classMate.IdealSaturdayClassMates.First().IdealSaturdayId == classmateToFind.IdealSaturdayClassMates.First().IdealSaturdayId)
+                            {
+                                score += idealSaturdayMatch;
+                            }
                         }
-                        if (classMate.ClassMateFoods.First().FoodId == classmateToFind.ClassMateFoods.First().FoodId)
+                        if (classMate.ClassMateFoods.Count > 0 && classmateToFind.ClassMateFoods.Count > 0)
                         {
-                            score += foodMatch;
+                            if (classMate.ClassMateFoods.First().FoodId == classmateToFind.ClassMateFoods.First().FoodId)
+                            {
+                                score += foodMatch;
+                            }
                         }
                         List<SongGenre> songsClassmates1 = classMate.SongGenres.ToList();
                         List<SongGenre> songsClassmates2 = classmateToFind.SongGenres.ToList();
-                        foreach(SongGenre genre1  in songsClassmates1)
+                        foreach (SongGenre genre1 in songsClassmates1)
                         {
-                            foreach(SongGenre genre2 in songsClassmates2)
+                            foreach (SongGenre genre2 in songsClassmates2)
                             {
-                                if(genre1.genre.Equals(genre2.genre))
+                                if (genre1.genre.Equals(genre2.genre))
                                 {
                                     score += genreMatch;
                                 }
                             }
                         }
-                        ClassMateMatch mateMatch = new ClassMateMatch();
-                        mateMatch.ClassMateClassMateId = classMate.ClassMateId;
-                        mateMatch.ClassMateClassMateId1 = classmateToFind.ClassMateId;
-                        mateMatch.score = score.ToString();
-                        db.ClassMateMatches.Add(mateMatch);
-                        db.SaveChanges();
+                        if (score > 0 && classMate.ClassMateId != classmateToFind.ClassMateId)
+                        {
+                            ClassMateResult mateMatch = new ClassMateResult();
+                            mateMatch.classmateId1 = classMate.ClassMateId;
+                            mateMatch.classmateid2 = classmateToFind.ClassMateId;
+                            mateMatch.Id = getCountOnTable() + 1;
+                            mateMatch.score = score.ToString();
+                            db.ClassMateResults.Add(mateMatch);
+                            db.SaveChanges();
+                        }
                     }
                 }
             }
@@ -219,17 +270,27 @@ namespace GroupFinder.Controllers
 
         public Boolean isScoreAlreadyAdded(int classmateId1, int classmateId2)
         {
-            var model = from r in db.ClassMateMatches
-                        where r.ClassMateClassMateId == classmateId1 && r.ClassMateClassMateId1 == classmateId2
+
+            var model = from r in db.ClassMateResults
+                        where r.classmateId1 == classmateId1 && r.classmateid2 == classmateId2
                         select r;
-            var modelAlternate = from r in db.ClassMateMatches
-                                 where r.ClassMateClassMateId == classmateId2 && r.ClassMateClassMateId1 == classmateId1
+            ClassMateResult item1 = model.FirstOrDefault();
+            var modelAlternate = from r in db.ClassMateResults
+                                 where r.classmateid2 == classmateId1 && r.classmateId1 == classmateId2
                                  select r;
-            if (model != null || modelAlternate != null)
+            ClassMateResult item2 = modelAlternate.FirstOrDefault();
+            if (item1 != null || item2 != null)
             {
                 return true;
             }
+
             return false;
+        }
+
+
+        public int getCountOnTable()
+        {
+            return db.ClassMateResults.Count();
         }
 
 

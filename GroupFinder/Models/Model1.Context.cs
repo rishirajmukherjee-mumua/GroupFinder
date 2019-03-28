@@ -33,6 +33,6 @@ namespace GroupFinder.Models
         public virtual DbSet<IdealSaturday> IdealSaturdays { get; set; }
         public virtual DbSet<SongGenre> SongGenres { get; set; }
         public virtual DbSet<Vacation> Vacations { get; set; }
-        public virtual DbSet<ClassMateMatch> ClassMateMatches { get; set; }
+        public virtual DbSet<ClassMateResult> ClassMateResults { get; set; }
     }
 }
