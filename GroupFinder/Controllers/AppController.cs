@@ -250,13 +250,16 @@ namespace GroupFinder.Controllers
                                 }
                             }
                         }
-                        ClassMateResult mateMatch = new ClassMateResult();
-                        mateMatch.classmateId1 = classMate.ClassMateId;
-                        mateMatch.classmateid2 = classmateToFind.ClassMateId;
-                        mateMatch.Id = getCountOnTable() + 1;
-                        mateMatch.score = score.ToString();
-                        db.ClassMateResults.Add(mateMatch);
-                        db.SaveChanges();
+                        if (score > 0 && classMate.ClassMateId != classmateToFind.ClassMateId)
+                        {
+                            ClassMateResult mateMatch = new ClassMateResult();
+                            mateMatch.classmateId1 = classMate.ClassMateId;
+                            mateMatch.classmateid2 = classmateToFind.ClassMateId;
+                            mateMatch.Id = getCountOnTable() + 1;
+                            mateMatch.score = score.ToString();
+                            db.ClassMateResults.Add(mateMatch);
+                            db.SaveChanges();
+                        }
                     }
                 }
             }
