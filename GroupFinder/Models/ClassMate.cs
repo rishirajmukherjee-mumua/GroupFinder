@@ -21,6 +21,8 @@ namespace GroupFinder.Models
             this.ClassMateVacations = new HashSet<ClassMateVacation>();
             this.IdealSaturdayClassMates = new HashSet<IdealSaturdayClassMate>();
             this.SongGenres = new HashSet<SongGenre>();
+            this.ClassMateMatches = new HashSet<ClassMateMatch>();
+            this.ClassMateMatches1 = new HashSet<ClassMateMatch>();
         }
     
         public int ClassMateId { get; set; }
@@ -37,5 +39,9 @@ namespace GroupFinder.Models
         public virtual ICollection<IdealSaturdayClassMate> IdealSaturdayClassMates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SongGenre> SongGenres { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClassMateMatch> ClassMateMatches { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClassMateMatch> ClassMateMatches1 { get; set; }
     }
 }

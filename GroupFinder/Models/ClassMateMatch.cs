@@ -12,10 +12,14 @@ namespace GroupFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ClassMateSongGenre
+    public partial class ClassMateMatch
     {
-        public int ClassMateSongGenreId { get; set; }
-        public string ClassMateId { get; set; }
-        public string SongGenreId { get; set; }
+        public int ClassMateMatchesId { get; set; }
+        public string score { get; set; }
+        public int ClassMateClassMateId { get; set; }
+        public int ClassMateClassMateId1 { get; set; }
+    
+        public virtual ClassMate ClassMate { get; set; }
+        public virtual ClassMate ClassMate1 { get; set; }
     }
 }

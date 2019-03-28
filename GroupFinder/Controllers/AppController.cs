@@ -18,6 +18,12 @@ namespace GroupFinder.Controllers
 {
     public class AppController : Controller
     {
+
+        private int vacationMatch = 10;
+        private int idealSaturdayMatch = 20;
+        private int foodMatch = 5;
+        private int genreMatch = 2;
+
         private GROUP_FINDEREntities db = new GROUP_FINDEREntities();
         // GET: App
         public ActionResult Login()
@@ -37,7 +43,7 @@ namespace GroupFinder.Controllers
             var item = model.FirstOrDefault();
             if (item != null)
             {
-                if(hasClassMateAnsweredQuestions(item.ClassMateId))
+                if (hasClassMateAnsweredQuestions(item.ClassMateId))
                 {
                     return View("Matches");
                 }
@@ -69,10 +75,10 @@ namespace GroupFinder.Controllers
         {
             var model = from r in db.ClassMateFoods
                         where r.ClassMateId == classmateId
-               
+
                         select r;
             var item = model.FirstOrDefault();
-            if(item != null)
+            if (item != null)
             {
                 return true;
             }
@@ -101,13 +107,13 @@ namespace GroupFinder.Controllers
             return View();
         }
 
-        public  SongGenre AddSongGenre(string songGenre, int classmateId)
+        public SongGenre AddSongGenre(string songGenre, int classmateId)
         {
             var model = from r in db.SongGenres
                         where r.genre == songGenre && r.ClassMateId == classmateId
                         select r;
             SongGenre item = model.FirstOrDefault();
-            if(item == null)
+            if (item == null)
             {
                 SongGenre songGenreDb = new SongGenre();
                 songGenreDb.genre = songGenre;
@@ -133,7 +139,7 @@ namespace GroupFinder.Controllers
             idealSaturdayClassMate.ClassMateId = questions.classmateid;
             idealSaturdayClassMate.IdealSaturdayId = questions.idealsaturdayid;
             List<String> songGenres = await GetSpotifyGenreData(questions.songorartist);
-            foreach(string genre in songGenres)
+            foreach (string genre in songGenres)
             {
                 SongGenre songGenre = AddSongGenre(genre, questions.classmateid);
             }
@@ -163,6 +169,67 @@ namespace GroupFinder.Controllers
             return genreList;
         }
 
+        public ActionResult FindMatches()
+        {
+            List<ClassMate> classMates = db.ClassMates.ToList();
+            foreach (ClassMate classMate in classMates)
+            {
+                int score = 0;
+                foreach (ClassMate classmateToFind in classMates)
+                {
+                    if (!isScoreAlreadyAdded(classMate.ClassMateId, classmateToFind.ClassMateId))
+                    {
+                        if (classMate.ClassMateVacations.ToList().First().VacationId == classmateToFind.ClassMateVacations.ToList().First().VacationId)
+                        {
+                            score += vacationMatch;
+                        }
+                        if (classMate.IdealSaturdayClassMates.First().IdealSaturdayId == classmateToFind.IdealSaturdayClassMates.First().IdealSaturdayId)
+                        {
+                            score += idealSaturdayMatch;
+                        }
+                        if (classMate.ClassMateFoods.First().FoodId == classmateToFind.ClassMateFoods.First().FoodId)
+                        {
+                            score += foodMatch;
+                        }
+                        List<SongGenre> songsClassmates1 = classMate.SongGenres.ToList();
+                        List<SongGenre> songsClassmates2 = classmateToFind.SongGenres.ToList();
+                        foreach(SongGenre genre1  in songsClassmates1)
+                        {
+                            foreach(SongGenre genre2 in songsClassmates2)
+                            {
+                                if(genre1.genre.Equals(genre2.genre))
+                                {
+                                    score += genreMatch;
+                                }
+                            }
+                        }
+                        ClassMateMatch mateMatch = new ClassMateMatch();
+                        mateMatch.ClassMateClassMateId = classMate.ClassMateId;
+                        mateMatch.ClassMateClassMateId1 = classmateToFind.ClassMateId;
+                        mateMatch.score = score.ToString();
+                        db.ClassMateMatches.Add(mateMatch);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return View();
+        }
+
+
+        public Boolean isScoreAlreadyAdded(int classmateId1, int classmateId2)
+        {
+            var model = from r in db.ClassMateMatches
+                        where r.ClassMateClassMateId == classmateId1 && r.ClassMateClassMateId1 == classmateId2
+                        select r;
+            var modelAlternate = from r in db.ClassMateMatches
+                                 where r.ClassMateClassMateId == classmateId2 && r.ClassMateClassMateId1 == classmateId1
+                                 select r;
+            if (model != null || modelAlternate != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
         public async Task<JsonResult> GetSpotifyData(string searchTerm)

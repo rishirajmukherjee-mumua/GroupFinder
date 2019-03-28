@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GROUP_FINDERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GROUP_FINDERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ClassMateFoods">
           <Key>
             <PropertyRef Name="ClassMateFoodId" />
@@ -12,6 +12,20 @@
           <Property Name="ClassMateFoodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClassMateId" Type="int" Nullable="false" />
           <Property Name="FoodId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GROUP_FINDER.dbo.ClassMateMatches' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClassMateMatches">
+          <Key>
+            <PropertyRef Name="ClassMateMatchesId" />
+            <PropertyRef Name="score" />
+            <PropertyRef Name="ClassMateClassMateId" />
+            <PropertyRef Name="ClassMateClassMateId1" />
+          </Key>
+          <Property Name="ClassMateMatchesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="score" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ClassMateClassMateId" Type="int" Nullable="false" />
+          <Property Name="ClassMateClassMateId1" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ClassMates">
           <Key>
@@ -96,6 +110,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ClassMateMatchesClassMate">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1" />
+          <End Role="ClassMateMatches" Type="Self.ClassMateMatches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateMatches">
+              <PropertyRef Name="ClassMateClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateMatchesClassMate1">
+          <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1" />
+          <End Role="ClassMateMatches" Type="Self.ClassMateMatches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMates">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateMatches">
+              <PropertyRef Name="ClassMateClassMateId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ClassMateVacations_ClassMates_ClassMateId">
           <End Role="ClassMates" Type="Self.ClassMates" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -175,6 +213,14 @@
           <EntitySet Name="IdealSaturdays" EntityType="Self.IdealSaturdays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SongGenres" EntityType="Self.SongGenres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vacations" EntityType="Self.Vacations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassMateMatches" EntityType="Self.ClassMateMatches" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClassMateMatches].[ClassMateMatchesId] AS [ClassMateMatchesId], 
+    [ClassMateMatches].[score] AS [score], 
+    [ClassMateMatches].[ClassMateClassMateId] AS [ClassMateClassMateId], 
+    [ClassMateMatches].[ClassMateClassMateId1] AS [ClassMateClassMateId1]
+    FROM [dbo].[ClassMateMatches] AS [ClassMateMatches]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ClassMateFoods_ClassMates_ClassMateId" Association="Self.FK_ClassMateFoods_ClassMates_ClassMateId">
             <End Role="ClassMates" EntitySet="ClassMates" />
             <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
@@ -182,6 +228,14 @@
           <AssociationSet Name="FK_ClassMateFoods_Foods_FoodId" Association="Self.FK_ClassMateFoods_Foods_FoodId">
             <End Role="Foods" EntitySet="Foods" />
             <End Role="ClassMateFoods" EntitySet="ClassMateFoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateMatchesClassMate" Association="Self.FK_ClassMateMatchesClassMate">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="ClassMateMatches" EntitySet="ClassMateMatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateMatchesClassMate1" Association="Self.FK_ClassMateMatchesClassMate1">
+            <End Role="ClassMates" EntitySet="ClassMates" />
+            <End Role="ClassMateMatches" EntitySet="ClassMateMatches" />
           </AssociationSet>
           <AssociationSet Name="FK_ClassMateVacations_ClassMates_ClassMateId" Association="Self.FK_ClassMateVacations_ClassMates_ClassMateId">
             <End Role="ClassMates" EntitySet="ClassMates" />
@@ -204,8 +258,7 @@
             <End Role="SongGenres" EntitySet="SongGenres" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GROUP_FINDERModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -232,6 +285,8 @@
           <NavigationProperty Name="ClassMateVacations" Relationship="Self.FK_ClassMateVacations_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="ClassMateVacations" />
           <NavigationProperty Name="IdealSaturdayClassMates" Relationship="Self.FK_IdealSaturdayClassMates_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="IdealSaturdayClassMates" />
           <NavigationProperty Name="SongGenres" Relationship="Self.FK_SongGenres_ClassMates_ClassMateId" FromRole="ClassMates" ToRole="SongGenres" />
+          <NavigationProperty Name="ClassMateMatches" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate" FromRole="ClassMate" ToRole="ClassMateMatch" />
+          <NavigationProperty Name="ClassMateMatches1" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1" FromRole="ClassMate" ToRole="ClassMateMatch" />
         </EntityType>
         <EntityType Name="ClassMateVacation">
           <Key>
@@ -421,7 +476,54 @@
             <End Role="IdealSaturdays" EntitySet="IdealSaturdays" />
             <End Role="IdealSaturdayClassMates" EntitySet="IdealSaturdayClassMates" />
           </AssociationSet>
+          <EntitySet Name="ClassMateMatches" EntityType="GROUP_FINDERModel.ClassMateMatch" />
+          <AssociationSet Name="FK_ClassMateMatchesClassMate" Association="GROUP_FINDERModel.FK_ClassMateMatchesClassMate">
+            <End Role="ClassMate" EntitySet="ClassMates" />
+            <End Role="ClassMateMatch" EntitySet="ClassMateMatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassMateMatchesClassMate1" Association="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1">
+            <End Role="ClassMate" EntitySet="ClassMates" />
+            <End Role="ClassMateMatch" EntitySet="ClassMateMatches" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ClassMateMatch">
+          <Key>
+            <PropertyRef Name="ClassMateMatchesId" />
+            <PropertyRef Name="score" />
+            <PropertyRef Name="ClassMateClassMateId" />
+            <PropertyRef Name="ClassMateClassMateId1" />
+          </Key>
+          <Property Name="ClassMateMatchesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="score" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClassMateClassMateId" Type="Int32" Nullable="false" />
+          <Property Name="ClassMateClassMateId1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClassMate" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate" FromRole="ClassMateMatch" ToRole="ClassMate" />
+          <NavigationProperty Name="ClassMate1" Relationship="GROUP_FINDERModel.FK_ClassMateMatchesClassMate1" FromRole="ClassMateMatch" ToRole="ClassMate" />
+        </EntityType>
+        <Association Name="FK_ClassMateMatchesClassMate">
+          <End Type="GROUP_FINDERModel.ClassMate" Role="ClassMate" Multiplicity="1" />
+          <End Type="GROUP_FINDERModel.ClassMateMatch" Role="ClassMateMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMate">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateMatch">
+              <PropertyRef Name="ClassMateClassMateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassMateMatchesClassMate1">
+          <End Type="GROUP_FINDERModel.ClassMate" Role="ClassMate" Multiplicity="1" />
+          <End Type="GROUP_FINDERModel.ClassMateMatch" Role="ClassMateMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassMate">
+              <PropertyRef Name="ClassMateId" />
+            </Principal>
+            <Dependent Role="ClassMateMatch">
+              <PropertyRef Name="ClassMateClassMateId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -496,6 +598,16 @@
               <MappingFragment StoreEntitySet="Vacations">
                 <ScalarProperty Name="VacationId" ColumnName="VacationId" />
                 <ScalarProperty Name="vacation1" ColumnName="vacation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassMateMatches">
+            <EntityTypeMapping TypeName="GROUP_FINDERModel.ClassMateMatch">
+              <MappingFragment StoreEntitySet="ClassMateMatches">
+                <ScalarProperty Name="ClassMateClassMateId1" ColumnName="ClassMateClassMateId1" />
+                <ScalarProperty Name="ClassMateClassMateId" ColumnName="ClassMateClassMateId" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="ClassMateMatchesId" ColumnName="ClassMateMatchesId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
